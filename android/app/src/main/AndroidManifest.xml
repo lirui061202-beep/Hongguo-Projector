@@ -1,0 +1,24 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- 应用内更新：下载新版 APK 后交给系统安装器覆盖安装（用户仍需在系统界面确认）。 -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-feature android:name="android.software.leanback" android:required="false"/>
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
+    <!--
+      图标走自适应图标（mipmap-anydpi-v26）：背景层是纯白不透明（@color/ic_launcher_background），
+      前景是扁平风格的 Apple 标志（果身 + 果叶两块纯色），因此 Android 8.0+ 与 API 26 以下的兜底位图
+      在桌面上是同一块白底 + 同一颗果子，不再由启动器决定底色（透明背景时不同启动器会垫黑 / 深灰底板）。
+      前景 @drawable/app_icon 已经把物件缩进安全区，圆形 / 圆角方形遮罩都切不到果叶尖。
+    -->
+    <application android:name="androidx.multidex.MultiDexApplication" android:label="红果投影版" android:theme="@style/AppTheme" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:banner="@drawable/tv_banner" android:allowBackup="false" android:enableOnBackInvokedCallback="false" android:usesCleartextTraffic="true" android:networkSecurityConfig="@xml/network_security_config" android:supportsRtl="true">
+        <!-- 更新用 FileProvider：只暴露 cache/updates 一个目录，安装完即失效。 -->
+        <provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.updates" android:exported="false" android:grantUriPermissions="true">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/update_paths"/>
+        </provider>
+        <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="landscape" android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|uiMode" android:launchMode="singleTop">
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LEANBACK_LAUNCHER"/></intent-filter>
+            <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
+        </activity>
+    </application>
+</manifest>

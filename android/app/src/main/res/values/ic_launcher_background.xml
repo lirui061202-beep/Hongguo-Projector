@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  应用图标的背景层：纯白不透明（#FFFFFF）。
+  改色值要同时改 tools/app-icon.py 的 BG_WHITE 并重跑，否则位图兜底与矢量会对不上。
+-->
+<resources>
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>
